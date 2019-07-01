@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
-    "heroku-postbuild": "cd frontend && yarn install && yarn run build"
+    "heroku-postbuild": "cd frontend && yarn install && yarn build"
   },
   "dependencies": {
     "bcrypt": "^3.0.6",
