@@ -18,6 +18,7 @@
     "jade": "~1.11.0",
     "jsonwebtoken": "^8.5.1",
     "morgan": "~1.9.1",
+    "node-pre-gyp": "^0.13.0",
     "nodemon": "^1.19.1",
     "npm": "^6.9.0",
     "popups": "^1.1.3",
