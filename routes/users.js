@@ -18,7 +18,7 @@ router.post("/user", function(req, res) {
     useremail: req.body.useremail,
     password: req.body.password
   }).then(function(user) {
-    if (user) res.status(201).redirect("/");
+    if (user) res.status(201).send();
     else res.status(404).redirect("/signup");
     // })
     // .catch(err => {
@@ -86,7 +86,7 @@ router.post("/restaurant", function(req, res) {
     minTime: req.body.minTime,
     openStatus: req.body.openStatus
   }).then(function(restaurant) {
-    res.status(201).redirect("/");
+    res.status(201).send();
   });
 });
 
@@ -147,7 +147,7 @@ router.post("/restaurants/:restaurant_id/review", function(req, res) {
           }
         );
       });
-    res.status(201).redirect(`/restaurants/${review.restaurantId}/reviews`);
+    res.status(201).send();
   });
 });
 
