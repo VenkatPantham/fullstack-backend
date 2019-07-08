@@ -8,16 +8,14 @@ var cors = require('cors');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
-const  jwt  =  require('jsonwebtoken');
-const  bcrypt  =  require('bcryptjs'); 
-const SECRET_KEY="edystechteam@#$7"
-
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-
+app.use(cors());
+// Serve static files from the React frontend app
+app.use(express.static(path.join(__dirname,"build")));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -26,7 +24,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/', usersRouter);
-app.use(cors());
+
+// Anything that doesn't match the above, send back index.html
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/build/index.html"));
+});
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

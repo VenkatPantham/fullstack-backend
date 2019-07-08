@@ -1,9 +1,6 @@
 var express = require("express");
 var router = express.Router();
 var models = require("../models");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
-const SECRET_KEY = "edystechteam@#$99";
 
 router.get("/users/:user_id", function(req, res) {
   models.User.findByPk(req.params.user_id).then(function(user) {
@@ -42,20 +39,20 @@ router.post("/users/login", function(req, res) {
   }).then(function(user) {
     if (user[0]) {
       if (user[0].dataValues.password == req.body.password) {
-        const expiresIn = 20;
-        const accessToken = jwt.sign({ useremail: user[0].dataValues.useremail }, SECRET_KEY, {
-          expiresIn: expiresIn
-        });
-        res.status(200).send({
-          user: user,
-          access_token: accessToken,
-          expires_in: expiresIn
-        });
-        console.log(accessToken);
-      } else res.json("Wrong Password");
-    } else res.json("No user with that EmailID");
+	//const expiresIn = 20;
+        //const accessToken = jwt.sign({ useremail: user[0].dataValues.useremail }, SECRET_KEY, {
+        // expiresIn: expiresIn
+        res.status(201).send();
+          //user: user,
+          //access_token: accessToken,
+          //expires_in: expiresIn
+    	};
+    };
+  })
+	  .catch(err=>{
+		  res.status(404).send();
+	  })
   });
-});
 
 router.get("/restaurants", function(req, res) {
   models.Restaurant.findAll().then(function(restaurants) {
