@@ -114,8 +114,8 @@ describe("creation", function() {
       review:
         " After he is done collecting the dishes from the table, he just wipes down the table with a dry cloth and not something wet, like something hygenic liquid or such stuff.",
       rating: "4",
-      RestaurantId: 1,
-      UserId: 1
+      restaurantId: 1,
+      userId: 1
     }).then(function(review) {
       var u = review.dataValues;
       expect(u.review).to.equal(

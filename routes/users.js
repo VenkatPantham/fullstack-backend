@@ -4,8 +4,7 @@ var models = require("../models");
 
 router.get("/users/:user_id", function(req, res) {
   models.User.findByPk(req.params.user_id).then(function(user) {
-    if (user) res.json(user);
-    else res.status(404).json("No user found with that ID");
+    res.status(200).json(user);
   });
 });
 
@@ -15,13 +14,13 @@ router.post("/user", function(req, res) {
     useremail: req.body.useremail,
     image: req.body.image,
     password: req.body.password
-  }).then(function(user) {
-    if (user) res.status(201).send();
-    else res.status(404).redirect("/signup");
-    // })
-    // .catch(err => {
-    //   console.log(err);
-  });
+  })
+    .then(function(user) {
+      res.status(201).send();
+    })
+    .catch(err => {
+      res.status(404).send();
+    });
 });
 
 router.patch("/users/:user_id", function(req, res) {
@@ -64,14 +63,17 @@ router.get("/restaurants", function(req, res) {
 });
 
 router.get("/restaurants/:restaurant_id", function(req, res) {
-  models.Restaurant.findByPk(req.params.restaurant_id).then(function(
-    restaurant
-  ) {
-    models.Restaurant.increment("views", {
-      where: { id: restaurant.id }
+  models.Restaurant.findByPk(req.params.restaurant_id)
+    .then(function(restaurant) {
+      models.Restaurant.increment("views", {
+        where: { id: restaurant.id }
+      });
+      console.log(restaurant);
+      res.json(restaurant);
+    })
+    .catch(err => {
+      res.status(404).send();
     });
-    res.json(restaurant);
-  });
 });
 
 router.post("/restaurant", function(req, res) {
@@ -115,8 +117,8 @@ router.post("/restaurants/:restaurant_id/review", function(req, res) {
   models.Review.create({
     review: req.body.review,
     rating: req.body.rating ? req.body.rating : 0,
-    UserId: 1,
-    RestaurantId: req.params.restaurant_id
+    userId: 1,
+    restaurantId: req.params.restaurant_id
   }).then(function(review) {
     models.Restaurant.findByPk(review.restaurantId).then(restaurant => {
       models.Restaurant.update(
@@ -146,7 +148,7 @@ router.post("/restaurants/:restaurant_id/review", function(req, res) {
           }
         );
       });
-    res.status(201).send();
+    res.status(201).json(review);
   });
 });
 
