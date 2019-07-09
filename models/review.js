@@ -4,9 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     "Review",
     {
       review: DataTypes.STRING,
-      rating: DataTypes.FLOAT,
-      userId: DataTypes.INTEGER,
-      restaurantId: DataTypes.INTEGER
+      rating: DataTypes.FLOAT
     },
     {}
   );
@@ -15,13 +13,13 @@ module.exports = (sequelize, DataTypes) => {
     models.Review.belongsTo(models.Restaurant, {
       onDelete: "CASCADE",
       foreignKey: {
-        allowNull: true
+        allowNull: false
       }
     });
     models.Review.belongsTo(models.User, {
       onDelete: "CASCADE",
       foreignKey: {
-        allowNull: true
+        allowNull: false
       }
     });
   };

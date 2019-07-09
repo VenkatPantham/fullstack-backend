@@ -13,6 +13,7 @@ router.post("/user", function(req, res) {
   models.User.create({
     username: req.body.username,
     useremail: req.body.useremail,
+    image: req.body.image,
     password: req.body.password
   }).then(function(user) {
     if (user) res.status(201).send();
@@ -36,23 +37,24 @@ router.patch("/users/:user_id", function(req, res) {
 router.post("/users/login", function(req, res) {
   models.User.findAll({
     where: { useremail: req.body.useremail }
-  }).then(function(user) {
-    if (user[0]) {
-      if (user[0].dataValues.password == req.body.password) {
-	//const expiresIn = 20;
-        //const accessToken = jwt.sign({ useremail: user[0].dataValues.useremail }, SECRET_KEY, {
-        // expiresIn: expiresIn
-        res.status(201).send();
+  })
+    .then(function(user) {
+      if (user[0]) {
+        if (user[0].dataValues.password == req.body.password) {
+          //const expiresIn = 20;
+          //const accessToken = jwt.sign({ useremail: user[0].dataValues.useremail }, SECRET_KEY, {
+          // expiresIn: expiresIn
+          res.status(201).send();
           //user: user,
           //access_token: accessToken,
           //expires_in: expiresIn
-    	};
-    };
-  })
-	  .catch(err=>{
-		  res.status(404).send();
-	  })
-  });
+        }
+      }
+    })
+    .catch(err => {
+      res.status(404).send();
+    });
+});
 
 router.get("/restaurants", function(req, res) {
   models.Restaurant.findAll().then(function(restaurants) {
@@ -113,8 +115,8 @@ router.post("/restaurants/:restaurant_id/review", function(req, res) {
   models.Review.create({
     review: req.body.review,
     rating: req.body.rating ? req.body.rating : 0,
-    userId: 1,
-    restaurantId: req.params.restaurant_id
+    UserId: 1,
+    RestaurantId: req.params.restaurant_id
   }).then(function(review) {
     models.Restaurant.findByPk(review.restaurantId).then(restaurant => {
       models.Restaurant.update(
