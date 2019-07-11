@@ -68,7 +68,6 @@ router.get("/restaurants/:restaurant_id", function(req, res) {
       models.Restaurant.increment("views", {
         where: { id: restaurant.id }
       });
-      console.log(restaurant);
       res.json(restaurant);
     })
     .catch(err => {
